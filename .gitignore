@@ -1,0 +1,23 @@
+backend/api_keys.py
+backend/__pycache__
+
+vassx_view/node_modules
+vassx_view/.pnp
+vassx_view/.pnp.js
+
+# testing
+vassx_view/coverage
+
+# production
+vassx_view/build
+
+# misc
+vassx_view/.DS_Store
+vassx_view/.env.local
+vassx_view/.env.development.local
+vassx_view/.env.test.local
+vassx_view/.env.production.local
+
+vassx_view/npm-debug.log*
+vassx_view/yarn-debug.log*
+vassx_view/yarn-error.log*
