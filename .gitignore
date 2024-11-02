@@ -5,6 +5,8 @@ vassx_view/node_modules
 vassx_view/.pnp
 vassx_view/.pnp.js
 
+.DS_Store  
+
 # testing
 vassx_view/coverage
 
