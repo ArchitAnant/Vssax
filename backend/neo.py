@@ -35,11 +35,11 @@ def get_neo_data():
             name = list_of_neos[k]['name']
             min_diameter = list_of_neos[k]['estimated_diameter']['kilometers']['estimated_diameter_min']
             max_diameter = list_of_neos[k]['estimated_diameter']['kilometers']['estimated_diameter_max']
-            diameter = f"{min_diameter} - {max_diameter} km"
+            diameter = f"{min_diameter:.5f} - {max_diameter:.5f} km"
             closest_approach_raw = list_of_neos[k]['close_approach_data'][0]['close_approach_date_full']
             closest_approach = f"{closest_approach_raw.split(' ')[0].replace('-',' ')} at {closest_approach_raw.split(' ')[1]} UTC"
-            velocity = f"{eval(list_of_neos[k]['close_approach_data'][0]['relative_velocity']['kilometers_per_second']):.2f}"
-            dist = f"{eval(list_of_neos[k]['close_approach_data'][0]['miss_distance']['astronomical']):.4f}"
+            velocity = f"{eval(list_of_neos[k]['close_approach_data'][0]['relative_velocity']['kilometers_per_second']):.2f} km/s"
+            dist = f"~{eval(list_of_neos[k]['close_approach_data'][0]['miss_distance']['astronomical']):.4f} AU"
             isSafe = list_of_neos[k]['is_potentially_hazardous_asteroid']
             neos.append(neo(name,diameter,closest_approach,velocity,dist,isSafe))
 

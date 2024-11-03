@@ -2,8 +2,13 @@ import './App.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import NeoBoard from './components/neo_board'
+import {ApodImage,ApodText} from './components/apod_dasboard'
+import { ProjectBase } from './components/projects';
+
 function App() {
-  const [data, setData] = useState(null);
+  const [apodData, setApodData] = useState(null);
+  const [neoData, setNeoData] = useState(null);
   const [loading, setLoading] = useState(true); // For managing loading state
   const [error, setError] = useState(null); // For managing error state
 
@@ -11,16 +16,30 @@ function App() {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://127.0.0.1:5000/api/apod_data');
-        setData(response.data);
-        setLoading(false);
+        setApodData(response.data);
+        // setLoading(false);
       } catch (err) {
         console.error('Error fetching data:', err);
         setError(err);
-        setLoading(false);
+        // setLoading(false);
       }
     };
 
+    const fetchNeoData = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:5000/api/neo_data');
+        setNeoData(response.data);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching neo data:', err);
+        setError(err);
+        setLoading(false);
+      }
+
+    }
+
     fetchData();
+    fetchNeoData();
   }, []);
 
   if (loading) {
@@ -34,65 +53,36 @@ function App() {
     <div className='flex flex-col'>
     <div className="flex flex-row items-top justify-top min-h-screen bg-black">
       <h1 className="text-white text-xl font-bold text-left ms-10 pt-10 ">VSSAX</h1>
-       <ApodText data={data} />
-       <ApodImage data={data} />
+       <ApodText data={apodData} />
+       <ApodImage data={apodData} />
     </div>
-    <NeoBoard />
-    </div>
-  );
-}
-
-function ApodImage({data}){
-  function onHighClick(){
-    window.open(data.high_link, '_blank'); 
-  }
-  return (
-    <div className="relative w-[50vw] min-w-[1080px] aspect-square overflow-visible">
-       <h1
-        className="absolute left-[-33%] text-white opacity-20 font-bold transform rotate-[-90deg] origin-bottom-right text-[8.5rem] bg-clip-text select-none"
-        style={{ whiteSpace: 'nowrap' }}
-      >
-        #APOD
-      </h1>
-      <img src={data.high_link} alt="Cropped Image" className="absolute top-0 right-0 w-full h-full object-cover" />
-      <button onClick={onHighClick}
-            className="absolute mt-8 right-[2%] border text-white hover:bg-white hover:text-black rounded-full text-xs px-3 py-2">
-        Load full Image
-      </button>
-     
-      <div className="absolute bottom-0 left-[-20%] w-[500px] h-[2px] bg-white opacity-20"></div>
-      <div className="absolute bottom-[-15%] left-0 w-[2px] h-[500px] bg-white opacity-20"></div>
+    <NeoBoard data={neoData}/>
+    <ProjectBase />
+    <Footer />
     </div>
   );
 }
 
-function ApodText({data}){
+function Footer(){
   return(
-    <div className='flex max-h-screen h-screen w-screen justify-center items-start flex-col'>
-    
-    <h1 className="text-white text-6xl font-bold text-left">{data.title}</h1>
-    <h1 className="text-white w-[400px] text-left ms-2 mt-8 opacity-50">{data.explanation}</h1>
-    
-    <h1 className="flex w-[400px] justify-center item-center text-white text-base text-left mt-3">{data.date}</h1>
-    </div>
+      <footer className="bg-transparent text-white py-6">
+        <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
+          <div className="text-center md:text-left">
+            <h2 className="text-lg font-semibold pb-3">VSSAX</h2>
+            <p className="text-sm opacity-50">© 2024 Archit Anant. All rights reserved.</p>
+          </div>
+          <div className="flex space-x-4 mt-4 md:mt-0">
+            <a href="/about" className="text-base hover:underline opacity-50">Disclaimer</a>
+            <a href="/privacy" className="text-base hover:underline opacity-50">Github</a>
+            <a href="/terms" className="text-base hover:underline opacity-50">NASA APIs</a>
+          </div>
+        </div>
+      </footer>
   )
 }
 
-function NeoBoard(){
-  return(
-    <>
-    <div className='relative ms-10 pt-10 bg-transparent'>
-    <h1 className="text-white text-8xl font-semibold text-left ms-10 pt-10 bg-transparent">What's</h1>
-    <h1 className="text-white text-8xl font-semibold text-left ms-10 pt-10 opacity-20 absolute top-0 left-0 translate-y-[52px] translate-x-[-8px] bg-clip-text">What's</h1>
-    </div>
-    <div className='relative ms-10 bg-transparent pb-20'>
-    <h1 className="text-white text-8xl font-semibold text-left ms-10 pt-5 bg-transparent">Flying By?</h1>
-    <h1 className="text-white text-8xl font-semibold text-left ms-10 opacity-20 absolute top-0 left-0 translate-y-[32px] translate-x-[-8px] bg-clip-text">Flying By?</h1>
-    <h1 className="text-white text-2xl text-left ms-10 mt-10 opacity-50 top-0 left-0 bg-clip-text">Near Earth Objects</h1>
-    </div>
-    </>
-  )
-}
+
+
 
 
 
