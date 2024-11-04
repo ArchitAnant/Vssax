@@ -9,7 +9,12 @@ import { ProjectBase } from './components/projects';
 function App() {
   const [apodData, setApodData] = useState(null);
   const [neoData, setNeoData] = useState(null);
-  const [loading, setLoading] = useState(true); // For managing loading state
+  const [projectData, setProjectData] = useState(null);
+
+  const [apodLoading, setApodLoading] = useState(true); // For managing loading state
+  const [neoLoading, setNeoLoading] = useState(true); // For managing loading state
+  const [projectLoading, setProjectLoading] = useState(true); // For managing loading state
+
   const [error, setError] = useState(null); // For managing error state
 
   useEffect(() => {
@@ -17,11 +22,12 @@ function App() {
       try {
         const response = await axios.get('http://127.0.0.1:5000/api/apod_data');
         setApodData(response.data);
-        // setLoading(false);
+        setApodLoading(false);
       } catch (err) {
         console.error('Error fetching data:', err);
         setError(err);
-        // setLoading(false);
+      }finally{
+        setApodLoading(false);
       }
     };
 
@@ -29,22 +35,36 @@ function App() {
       try {
         const response = await axios.get('http://127.0.0.1:5000/api/neo_data');
         setNeoData(response.data);
-        setLoading(false);
+        setNeoLoading(false)
       } catch (err) {
         console.error('Error fetching neo data:', err);
         setError(err);
-        setLoading(false);
-      }
+
+        // setLoading(false);
+      }finally{
+        setNeoLoading(false);
+      };
 
     }
+    const fetchProjectData = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:5000/api/projects');
+        setProjectData(response.data);
+        setProjectLoading(false);
+      } catch (err) {
+        console.error('Error fetching neo data:', err);
+        setError(err);
+        setProjectLoading(false);
+      }finally{
+        setProjectLoading(false);
+      };
 
+    }
     fetchData();
     fetchNeoData();
+    fetchProjectData();
   }, []);
 
-  if (loading) {
-    return <div className="text-white flex justify-center items-center h-screen w-screen">Loading...</div>; // Display loading message
-  }
 
   if (error) {
     return <div className="text-white flex justify-center items-center h-screen w-screen">Error loading data. Please try again later.</div>; // Display error message
@@ -53,12 +73,25 @@ function App() {
     <div className='flex flex-col'>
     <div className="flex flex-row items-top justify-top min-h-screen bg-black">
       <h1 className="text-white text-xl font-bold text-left ms-10 pt-10 ">VSSAX</h1>
-       <ApodText data={apodData} />
-       <ApodImage data={apodData} />
-    </div>
-    <NeoBoard data={neoData}/>
-    <ProjectBase />
-    <Footer />
+      {apodLoading ? (
+          <div className="text-white flex justify-center items-center h-screen w-screen">Loading...</div>
+        ) : (
+          <>
+            <ApodText data={apodData} />
+            <ApodImage data={apodData} />
+          </>
+        )}
+      </div>
+      {neoLoading ? (
+        <div className="text-white flex justify-center items-center h-screen w-screen">Loading...</div>
+      ) : (
+        <NeoBoard data={neoData} />
+      )}
+      {projectLoading ? (
+        <div className="text-white flex justify-center items-center h-screen w-screen">Loading...</div>
+      ) : (
+        <ProjectBase data={projectData} />
+      )}    <Footer />
     </div>
   );
 }

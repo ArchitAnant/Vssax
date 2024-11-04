@@ -83,7 +83,7 @@ function InnerNeoCard({ data }) {
           </div>
         </div>
         <h1 className="text-white text-sm bg-clip-text opacity-70">
-          Will pass at a safe distance from Earth!
+          {data.isThreat ? "Can pose a threat to Earth!":"Will pass at a safe distance from Earth!"}
         </h1>
       </div>
     </div>
