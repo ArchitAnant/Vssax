@@ -1,9 +1,40 @@
-import React from "react";
+import React, { useRef, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 export function NeoBoard({ data }) {
+  const [isInView, setIsInView] = useState(false);
+  const ref = useRef();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => setIsInView(entry.isIntersecting));
+      },
+      { threshold: 0.2 }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+
+    return () => {
+      if (ref.current) observer.unobserve(ref.current);
+    };
+  }, []);
+
+  const horizontalFadeIn = {
+    initial: { opacity: 0, x: -50 },
+    animate: isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 },
+    transition: { duration: 0.8, ease: "easeOut" },
+  };
+
+  const verticalFadeIn = {
+    initial: { opacity: 0, y: 50 },
+    animate: isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 },
+    transition: { duration: 0.8, ease: "easeOut" },
+  };
+
   return (
-    <div className="flex flex-row items-center justify-start w-full bg-black">
-      <div className="flex flex-col">
+    <div ref={ref} className="flex flex-row items-center justify-start w-full bg-black">
+      <motion.div {...horizontalFadeIn} className="flex flex-col">
         <div className="relative ms-10 pt-10 bg-transparent">
           <h1 className="text-white text-8xl font-semibold text-left ms-10 pt-10 bg-transparent">
             What's
@@ -23,9 +54,10 @@ export function NeoBoard({ data }) {
             Near Earth Objects
           </h1>
         </div>
-      </div>
-      <div className="flex flex-col ms-10 mt-40 space-y-10 flex-grow">
-        <div className="flex-grow flex justify-center space-x-10 ">
+      </motion.div>
+
+      <motion.div {...verticalFadeIn} className="flex flex-col ms-10 mt-40 space-y-10 flex-grow">
+        <div className="flex-grow flex justify-center space-x-10">
           <NeoCard data={data[0]} />
           <NeoCard data={data[1]} />
         </div>
@@ -33,7 +65,7 @@ export function NeoBoard({ data }) {
           <NeoCard data={data[2]} />
           <NeoCard data={data[3]} />
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
@@ -83,7 +115,7 @@ function InnerNeoCard({ data }) {
           </div>
         </div>
         <h1 className="text-white text-sm bg-clip-text opacity-70">
-          {data.isThreat ? "Can pose a threat to Earth!":"Will pass at a safe distance from Earth!"}
+          {data.isThreat ? "Can pose a threat to Earth!" : "Will pass at a safe distance from Earth!"}
         </h1>
       </div>
     </div>

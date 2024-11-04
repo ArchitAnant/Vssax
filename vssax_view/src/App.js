@@ -1,6 +1,7 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import {azure_key} from './keys'
 
 import NeoBoard from './components/neo_board'
 import {ApodImage,ApodText} from './components/apod_dasboard'
@@ -20,7 +21,8 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/api/apod_data');
+        console.log('https://vssaxapi.azurewebsites.net/api/apod_data?code='+azure_key);
+        const response = await axios.get('https://vssaxapi.azurewebsites.net/api/apod_data?code='+azure_key);
         setApodData(response.data);
         setApodLoading(false);
       } catch (err) {
@@ -33,7 +35,7 @@ function App() {
 
     const fetchNeoData = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/api/neo_data');
+        const response = await axios.get('https://vssaxapi.azurewebsites.net/api/neo_data?code='+azure_key);
         setNeoData(response.data);
         setNeoLoading(false)
       } catch (err) {
@@ -48,7 +50,7 @@ function App() {
     }
     const fetchProjectData = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/api/projects');
+        const response = await axios.get('https://vssaxapi.azurewebsites.net/api/projects?code='+azure_key);
         setProjectData(response.data);
         setProjectLoading(false);
       } catch (err) {
@@ -105,9 +107,9 @@ function Footer(){
             <p className="text-sm opacity-50">© 2024 Archit Anant. All rights reserved.</p>
           </div>
           <div className="flex space-x-4 mt-4 md:mt-0">
-            <a href="/about" className="text-base hover:underline opacity-50">Disclaimer</a>
-            <a href="/privacy" className="text-base hover:underline opacity-50">Github</a>
-            <a href="/terms" className="text-base hover:underline opacity-50">NASA APIs</a>
+            <a href="https://github.com/ArchitAnant/Vssax/blob/main/LICENSE" target = "blank"className="text-base hover:underline opacity-50">Disclaimer</a>
+            <a href="https://github.com/ArchitAnant/Vssax/" target = "blank" className="text-base hover:underline opacity-50">Github</a>
+            <a href="https://api.nasa.gov" target = "blank" className="text-base hover:underline opacity-50">NASA APIs</a>
           </div>
         </div>
       </footer>

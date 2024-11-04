@@ -18,7 +18,7 @@ export function ApodImage({data}){
           Load full Image
         </button>
        
-        <div className="absolute bottom-0 left-[-20%] w-[500px] h-[2px] bg-white opacity-20"></div>
+        <div className="absolute bottom-0 -left-[20%] w-[900px] h-[2px] bg-white opacity-20"></div>
         <div className="absolute bottom-[-10%] left-0 w-[2px] h-[500px] bg-white opacity-20"></div>
       </div>
     );
@@ -28,7 +28,7 @@ export function ApodImage({data}){
     return(
       <div className='flex max-h-screen h-screen w-screen justify-center items-start flex-col'>
       
-      <h1 className="text-white text-6xl font-bold text-left">{data.title}</h1>
+      <h1 className="text-white text-6xl font-bold text-left w-[400px]">{data.title}</h1>
       <h1 className="text-white w-[400px] text-left ms-2 mt-8 opacity-50">{data.explanation}</h1>
       
       <h1 className="flex w-[400px] justify-center item-center text-white text-base text-left mt-3">{data.date}</h1>

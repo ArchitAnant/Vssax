@@ -10,7 +10,6 @@ def _getIds():
     id_response = ids_raw_response.json()
 
     lists = id_response['projects'][:5]
-    print("ides: ",len(lists))
 
     return [k['projectId'] for k in lists]
 
@@ -35,10 +34,9 @@ def get_projects():
         states_list = [k['abbreviation'] for k in raw_states_list]
         project['states'] = ", ".join(states_list)
         project['acrn'] = response['project']['acronym']
-        project['desc'] = response['project']['description']
+        project['desc'] = response['project']['description'].replace("<p>","").replace("</p>","").replace("<strong>","").replace("</strong>","")
         projects.append(project)
     
-    print(len(projects))
     return projects
 
 
