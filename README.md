@@ -12,7 +12,7 @@ Azure account (if running on Azure Functions)
 1. Clone the repo
 ```
 git clone https://github.com/ArchitAnant/Vssax.git
-cd Vssax
+cd Vssax/vssax_view
 ```
 2. Install and Run
 ```
