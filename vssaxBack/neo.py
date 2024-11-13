@@ -1,5 +1,6 @@
 import requests
 from api_keys import nasa_api_key
+from datetime import datetime,timedelta
 
 class neo:
     def __init__(self,name,diameter,closest_approach,velocity,distance,isThreat):
@@ -23,8 +24,17 @@ class neo:
     def __str__(self):
         return(f"NEO:\nName: {self.name}\nDiameter: {self.diameter}\nClosest Approach: {self.closest_approach}\nVelocity: {self.velocity} km/s\nDistance: {self.distance} AU\nIs Threat: {self.isThreat}\n")
 
+def get_dates():
+    current_date = datetime.now()
+    today_date = (current_date+timedelta(days=-1)).strftime("%Y-%m-%d")
+    new_date = current_date + timedelta(days=5)
+    next_date = new_date.strftime("%Y-%m-%d")
+
+    return (today_date,next_date)
+
 def get_neo_data():
-    val = requests.get(f"https://api.nasa.gov/neo/rest/v1/feed?start_date=2024-10-31&end_date=2024-11-5&api_key={nasa_api_key}")
+    dates = get_dates()
+    val = requests.get(f"https://api.nasa.gov/neo/rest/v1/feed?start_date={dates[0]}&end_date={dates[1]}&api_key={nasa_api_key}")
     dates_list = list(val.json()["near_earth_objects"].keys())
 
     neos = []

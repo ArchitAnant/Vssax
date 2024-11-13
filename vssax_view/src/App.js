@@ -21,7 +21,6 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log('https://vssaxapi.azurewebsites.net/api/apod_data?code='+azure_key);
         const response = await axios.get('https://vssaxapi.azurewebsites.net/api/apod_data?code='+azure_key);
         setApodData(response.data);
         setApodLoading(false);
