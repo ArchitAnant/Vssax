@@ -93,7 +93,11 @@ function DetailedInfo({data,onRightClick}){
   return(
     <AnimatePresence mode="wait">
       <motion.div key={data.acrn} {...fadeSlideAnimation} className="flex flex-row items-center bg-tranparent justify-start">
-      <h1 className="text-white text-8xl bg-transparent opacity-70 -rotate-90 origin-center">{data.acrn}</h1>
+        {
+      data.acrn.length === 0 
+      ? <div className="bg-transparent opacity-0 px-[50px]"></div>
+      : <h1 className="text-white text-8xl bg-transparent opacity-70 -rotate-90 origin-center">{data.acrn}</h1>
+    }
       <div className="bg-white bg-opacity-10 flex justify-start items-start flex-col ps-[50px] pt-[50px] pb-[20px] pe-[30px]">
         <div className="flex flex-row bg-transparent justify-center items-center">
           <h1 className="text-white bg-transparent text-2xl w-[200px] opacity-70">{data.name}</h1>
