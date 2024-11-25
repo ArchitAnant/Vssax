@@ -12,7 +12,14 @@ export function ApodImage({data}){
         >
           #APOD
         </h1>
-        <img src={data.high_link} alt="Cropped Image" className="absolute top-0 right-0 w-full h-full object-cover" />
+        if (data.media_type === "image") {
+          <img src={data.high_link} alt="Cropped Image" className="absolute top-0 right-0 w-full h-full object-cover" />
+        }
+        else if (data.media_type === "video") {
+         
+          
+       } 
+        
         <button onClick={onHighClick}
               className="absolute mt-8 right-[2%] border text-white hover:bg-white hover:text-black rounded-full text-xs px-3 py-2">
           Load full Image

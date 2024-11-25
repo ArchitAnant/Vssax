@@ -8,8 +8,12 @@ def get_apod():
     apod = {}
     apod['title'] = json_raw['title']
     apod['explanation'] = json_raw['explanation']
-    apod['high_link'] = json_raw['hdurl']
-    apod['low_link'] = json_raw['url']
+    apod['media_type'] = json_raw['media_type']
+    if apod['media_type'] == 'image':
+        apod['high_link'] = json_raw['hdurl']
+        apod['low_link'] = json_raw['url']
+    if apod['media_type'] == 'video':
+        apod['high_link'] = json_raw['url']
     apod['date'] = json_raw['date']
 
     return apod

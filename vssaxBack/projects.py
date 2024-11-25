@@ -23,18 +23,59 @@ def get_projects():
         print(nums)
         raw_response = requests.get(f"https://techport.nasa.gov/api/projects/{nums}")
         response = raw_response.json()
-        project = {}
-        project['name'] = response['project']['title']
-        project['proj_id'] = response['projectId']
-        project['duration'] = f"{response['project']['startYear']}-{response['project']['endYear']}"
-        raw_dest_list = response['project']['destinationType']
-        project['dests'] = ", ".join(raw_dest_list)
-        project['lead_org'] = response['project']['leadOrganization']['organizationName']
-        raw_states_list = response['project']['states']
-        states_list = [k['abbreviation'] for k in raw_states_list]
-        project['states'] = ", ".join(states_list)
-        project['acrn'] = response['project']['acronym']
-        project['desc'] = response['project']['description'].replace("<p>","").replace("</p>","").replace("<strong>","").replace("</strong>","")
+        project = {
+            'name': None,
+            'proj_id': None,
+            'duration': None,
+            'dests': None,
+            'lead_org': None,
+            'states': None,
+            'acrn': None,
+            'desc': None
+        }
+        try:
+            project['name'] = response['project']['title']
+        except:
+            project['name'] = "N/A"
+        
+        try:
+            project['proj_id'] = response['projectId']
+        except:
+            project['proj_id'] = "N/A"
+        
+        try:
+            project['duration'] = f"{response['project']['startYear']}-{response['project']['endYear']}"
+        except:
+            project['duration'] = "N/A"
+
+        try:
+            raw_dest_list = response['project']['destinationType']
+            project['dests'] = ", ".join(raw_dest_list)
+        except:
+            project['dests'] = "N/A"
+
+        try:
+            project['lead_org'] = response['project']['leadOrganization']['organizationName']
+        except:
+            project['lead_org'] = "N/A"
+
+        try:
+            raw_states_list = response['project']['states']
+            states_list = [k['abbreviation'] for k in raw_states_list]
+            project['states'] = ", ".join(states_list)
+        except:
+            project['states'] = "N/A"
+
+        try:
+            project['acrn'] = response['project']['acronym']
+        except:
+            project['acrn'] = "N/A"
+
+        try:
+            project['desc'] = response['project']['description'].replace("<p>", "").replace("</p>", "").replace("<strong>", "").replace("</strong>", "")
+        except:
+            project['desc'] = "N/A"
+
         projects.append(project)
     
     return projects
